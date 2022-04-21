@@ -1,3 +1,4 @@
+" Debug vim: vim -V20 2>&1 | tee logfile
 let g:gruvbox_contrast_dark = 'hard' " available values: 'hard', 'medium'(default), 'soft'
 autocmd vimenter * ++nested colorscheme gruvbox
 
@@ -18,28 +19,26 @@ set splitbelow splitright " Change the split screen behavior
 set title " Show file title
 set wildmenu " Show a more advance menu
 set ttyfast " Speed up scrolling in Vim
+set inccommand=split " Show replacements in a split screen
+set timeoutlen=400 " nvim setting for pop timeout, used by WhichKey
+" 5 ones below are mentioned in vim-sensible
 "set backspace=indent,eol,start
 "set autoindent " Indent a new line
 "set spell " enable spell check (may need to download language package)
 "syntax on
 "filetype plugin indent on   " Allow auto-indenting depending on file type
 
-:set viminfo='1000,f1 "save bookmarks between sessions, use uppercase or numeric marks
+set viminfo='1000,f1 "save bookmarks between sessions, use uppercase or numeric marks
 
 nnoremap <leader>d "_d "Use the "black hole register", "_ to really delete something
-
-" search for the word under the cursor, just press *.
-" search for visually selected text
-vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
-
+"noremap <Ctrl-.> @:<CR> " Use . to repeat a normal/insert-mode command, @: to repeat a command-line command
+"further repeats can be done with @@
+tnoremap <Esc> <C-\><C-n> " To get out of Terminal mode using esc
+vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR> " search for the word under the cursor or visually selected text, just press *.
 noremap <Leader>y "+y " + uses CLIPBOARD; mnemonic: CTRL PLUS C (for the common keybind)
 noremap <Leader>p "+p
 noremap <Leader>Y "*y " * uses PRIMARY; mnemonic: Star is Select (for copy-on-select)
 noremap <Leader>P "*p
-
-" To get out of Terminal mode, we have to press control-backslash-control-n. That's awkward!
-tnoremap <Esc> <C-\><C-n>
-set inccommand=split " Show replacements in a split screen
 
 
 " Install vim-plug if not found
@@ -61,7 +60,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'kyazdani42/nvim-tree.lua'
 Plug 'morhetz/gruvbox'
 Plug 'ervandew/supertab' " Map tab to omnicompletion
-Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] } " displays available keybindings in popup
+Plug 'folke/which-key.nvim'
 
 " Telescope dependancies
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -89,7 +88,7 @@ function! Open_repl()
   " Using vim-dispatch
   Start! ~/.vim/plugged/vim-iced/bin/iced repl --with-kaocha
 endfunction
-autocmd FileType clojure, nnoremap <leader>re :call Open_repl()<CR>
+autocmd FileType clojure, nnoremap <leader>rrr :call Open_repl()<CR>
 
 " vim-airline
 let g:airline#extensions#tabline#enabled = 1
@@ -125,11 +124,6 @@ nnoremap <leader>ft <cmd>lua require('telescope.builtin').lsp_document_symbols()
 nnoremap <leader>fa <cmd>lua require('telescope.builtin').lsp_code_actions()<cr>
 nnoremap <leader>fi <cmd>lua require('telescope.builtin').lsp_implementations()<cr>
 nnoremap <leader>fd <cmd>lua require('telescope.builtin').lsp_definitions()<cr>
-
-" WhichKey
-nnoremap <silent> <leader> :WhichKey '\'<CR>
-autocmd! User vim-which-key call which_key#register('<Space>', 'g:which_key_map')
-set timeoutlen=200
 
 " Nvim-tree
 let g:nvim_tree_git_hl = 1 "0 by default, will enable file highlight for git attributes (can be used without the icons).
@@ -220,6 +214,12 @@ for _, lsp in pairs(servers) do
     }
 end
 
+-- which-key
+require("which-key").setup {
+  -- your configuration comes here
+  -- or leave it empty to use the default settings
+  -- refer to the configuration section below
+}
 
 -- Telescope
 require('telescope').setup{
