@@ -19,62 +19,76 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
       \| endif
 
 call plug#begin('~/.vim/plugged')
+" General
 Plug 'ellisonleao/gruvbox.nvim'
-Plug 'tpope/vim-sensible'
-Plug 'preservim/nerdcommenter' " [count]<leader>c<space> |NERDCommenterToggle|
-Plug 'vim-airline/vim-airline' " Lean & mean status/tabline for vim that's light as air
-Plug 'ntpeters/vim-better-whitespace' " causes all trailing whitespace characters to be highlighted, :StripWhitespace to clean
-Plug 'tpope/vim-fugitive'
-Plug 'kyazdani42/nvim-tree.lua'
-Plug 'arnau/teaspoon.nvim'
-Plug 'rktjmp/lush.nvim'
-Plug 'ervandew/supertab' " Map tab to omnicompletion
+Plug 'mhinz/vim-startify'
+"Plug 'ervandew/supertab' " Map tab to omnicompletion
 Plug 'folke/which-key.nvim'
+Plug 'karb94/neoscroll.nvim'
+Plug 'kyazdani42/nvim-tree.lua'
+Plug 'ntpeters/vim-better-whitespace' " causes all trailing whitespace characters to be highlighted, :StripWhitespace to clean
+Plug 'preservim/nerdcommenter' " [count]<leader>c<space> |NERDCommenterToggle|
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
+Plug 'airblade/vim-gitgutter'
+Plug 'rhysd/git-messenger.vim' " :GitMessenger or <Leader>gm, d show diff of file, D show diff of commit, o/O prev/next commit history
+Plug 'tpope/vim-sensible'
+Plug 'vim-airline/vim-airline' " Lean & mean status/tabline for vim that's light as air
+
+" Terminals
+Plug 'tpope/vim-dispatch' " Dep for vim-jack-in and vim-dispatch-neovim
+Plug 'radenling/vim-dispatch-neovim' " Dep for vim-jack-in, causing a huge terminal to appear, unless you add !, eg Start!
+Plug 'Olical/aniseed' "Dep for nterm
+Plug 'jlesquembre/nterm.nvim'
 
 " Telescope dependancies
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-lua/plenary.nvim' "All the lua functions I don't want to write twice
 Plug 'BurntSushi/ripgrep'
+Plug 'gbprod/yanky.nvim'
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 Plug 'nvim-telescope/telescope.nvim'
 
-" Clojure development
+" Languages
+Plug 'williamboman/nvim-lsp-installer' " :LspInstallInfo
 Plug 'neovim/nvim-lspconfig' " brew install clojure-lsp/brew/clojure-lsp-native
-Plug 'tpope/vim-dispatch' " Dep for vim-jack-in and vim-dispatch-neovim
-Plug 'radenling/vim-dispatch-neovim' " Dep for vim-jack-in, causing a huge terminal to appear, unless you add !, eg Start!
-" Plug 'clojure-vim/vim-jack-in' " Jack in to Boot, Clj & Leiningen from Vim, run :Clj! [args], not needed if using vim-iced
-Plug 'Olical/aniseed' "Dep for nterm
-Plug 'jlesquembre/nterm.nvim'
+"Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'hrsh7th/nvim-cmp' " Autocompletion plugin
+Plug 'hrsh7th/cmp-nvim-lsp' " LSP source for nvim-cmp
+Plug 'saadparwaiz1/cmp_luasnip' " Snippets source for nvim-cmp
+Plug 'L3MON4D3/LuaSnip' " Snippets plugin
+
+" Clojure
+Plug 'liquidz/vim-iced', {'for': 'clojure'}
+Plug 'liquidz/vim-iced-kaocha'
 Plug 'guns/vim-sexp',    {'for': 'clojure'} " Dep for vim-sexp-mappings-for-regular-people
 "Plug 'tpope/vim-sexp-mappings-for-regular-people' " >), <), >(, and <( to slurp and barf
 Plug 'luochen1990/rainbow'
+" Plug 'clojure-vim/vim-jack-in' " Jack in to Boot, Clj & Leiningen from Vim, run :Clj! [args], not needed if using vim-iced
 "Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } " Dep for vim-iced
-Plug 'liquidz/vim-iced', {'for': 'clojure'}
-Plug 'liquidz/vim-iced-kaocha'
-"Plug 'Olical/conjure'
 call plug#end()
 
 
 
-set tabstop=2
-set shiftwidth=2
-set expandtab
-set ignorecase
-set smartindent
-set nocompatible
-set number " Shows the line numbers
-set mouse=a " Allow to use the mouse in the editor
-set smartcase
 set clipboard=unnamedplus " Automatically use the system clipboard for copy and paste, unnamed is for Linux selection register
 "set completeopt=noinsert,menuone,noselect " Modifies the auto-complete menu to behave more like an IDE.
 set cursorline " Highlights the current line in the editor
+set expandtab
 set hidden " Hide unused buffers so any buffer can be hidden (keeping its changes) without first writing the buffer to a file
-set splitbelow splitright " Change the split screen behavior
-set title " Show file title
-set wildmenu " Show a more advance menu
-set ttyfast " Speed up scrolling in Vim
+set ignorecase
 set inccommand=split " Show replacements in a split screen
+set mouse=a " Allow to use the mouse in the editor
+set nocompatible
+set number " Shows the line numbers
+set shiftwidth=2
+set smartcase
+set smartindent
+set splitbelow splitright " Change the split screen behavior
+set tabstop=2
 set timeoutlen=400 " nvim setting for pop timeout, used by WhichKey
+set title " Show file title
+set ttyfast " Speed up scrolling in Vim
+set wildmenu " Show a more advance menu
 " 5 ones below are mentioned in vim-sensible
 "set backspace=indent,eol,start
 "set autoindent " Indent a new line
@@ -84,7 +98,8 @@ set timeoutlen=400 " nvim setting for pop timeout, used by WhichKey
 
 set viminfo='1000,f1 "save bookmarks between sessions, use uppercase or numeric marks
 
-nnoremap <leader>d "_d "Use the "black hole register", "_ to really delete something
+nnoremap <leader>d <leader>_d
+"Use the "black hole register", "_ to really delete something
 "noremap <Ctrl-.> @:<CR> " Use . to repeat a normal/insert-mode command, @: to repeat a command-line command
 "further repeats can be done with @@
 tnoremap <Esc> <C-\><C-n> " To get out of Terminal mode using esc
@@ -113,23 +128,28 @@ let g:airline#extensions#tabline#enabled = 1
 " rainbow
 let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowToggle
 
+" vim-rhubarb
+" Open current line in the browser
+nnoremap <Leader>gb :.GBrowse<CR>
+" Open visual selection in the browser
+vnoremap <Leader>gb :GBrowse<CR>
+
 " Telescope
-nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
-nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
-nnoremap <leader>fw <cmd>lua require('telescope.builtin').grep_string()<cr>
-nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
-nnoremap <leader>f; <cmd>lua require('telescope.builtin').builtin()<cr>
 nnoremap <leader>f' <cmd>lua require('telescope.builtin').marks()<cr>
-nnoremap <leader>fq <cmd>lua require('telescope.builtin').quickfix()<cr>
-nnoremap <leader>fl <cmd>lua require('telescope.builtin').loclist()<cr>
+nnoremap <leader>f; <cmd>lua require('telescope.builtin').builtin()<cr>
+nnoremap <leader>fa <cmd>lua require('telescope.builtin').lsp_code_actions()<cr>
+nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <leader>fd <cmd>lua require('telescope.builtin').lsp_definitions()<cr>
+nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files({hidden = true})<cr>
+nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
+nnoremap <leader>fi <cmd>lua require('telescope.builtin').lsp_implementations()<cr>
 nnoremap <leader>fj <cmd>lua require('telescope.builtin').jumplist()<cr>
+nnoremap <leader>fl <cmd>lua require('telescope.builtin').loclist()<cr>
 nnoremap <leader>fp <cmd>lua require('telescope.builtin').registers()<cr>
+nnoremap <leader>fq <cmd>lua require('telescope.builtin').quickfix()<cr>
 nnoremap <leader>fr <cmd>lua require('telescope.builtin').lsp_references()<cr>
 nnoremap <leader>ft <cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>
-nnoremap <leader>fa <cmd>lua require('telescope.builtin').lsp_code_actions()<cr>
-nnoremap <leader>fi <cmd>lua require('telescope.builtin').lsp_implementations()<cr>
-nnoremap <leader>fd <cmd>lua require('telescope.builtin').lsp_definitions()<cr>
-nnoremap <leader>fn <cmd>lua require('telescope').extensions.nterm.nterm()
+nnoremap <leader>fw <cmd>lua require('telescope.builtin').grep_string()<cr>
 
 nnoremap <leader>fhg <cmd>lua require('telescope.builtin').pickers()<cr>
 nnoremap <leader>fhh <cmd>lua require('telescope.builtin').help_tags()<cr>
@@ -137,6 +157,8 @@ nnoremap <leader>fhm <cmd>lua require('telescope.builtin').man_pages()<cr>
 nnoremap <leader>fh/ <cmd>lua require('telescope.builtin').search_history()<cr>
 nnoremap <leader>fhk <cmd>lua require('telescope.builtin').keymaps()<cr>
 nnoremap <leader>fhc <cmd>lua require('telescope.builtin').commands()<cr>
+
+nnoremap <leader>fn <cmd>lua require('telescope').extensions.nterm.nterm()<cr>
 
 " Nvim-tree
 let g:nvim_tree_git_hl = 1 "0 by default, will enable file highlight for git attributes (can be used without the icons).
@@ -170,11 +192,20 @@ nmap <Leader>eP <Plug>(iced_eval_and_print)<Plug>(sexp_outer_list)``
 nmap <Leader>ewt <Plug>(iced_eval_and_tap)<Plug>(sexp_outer_list)``
 nmap <Leader>ewc <Plug>(iced_eval_and_comment)<Plug>(sexp_outer_list)``
 
+" supertab
+let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
 
 " LUA code
 lua << EOF
 
+
+-- nvim-lsp-installer
+require("nvim-lsp-installer").setup {
+  automatic_installation = true
+}
+
 -- lspconfig
+vim.lsp.set_log_level("debug")
 -- Mappings.
 local opts = { noremap=true, silent=true }
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
@@ -186,7 +217,7 @@ vim.api.nvim_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.setloclist()<C
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
 -- Enable completion triggered by <c-x><c-o>
-vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+-- vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 -- Mappings.
 -- See `:help vim.lsp.*` for documentation on any of the below functions
 vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
@@ -196,25 +227,93 @@ vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>wl', '<cmd>lua print(vim.inspect
 vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
 vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 end
+
+-- Add additional capabilities supported by nvim-cmp
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { 'clojure_lsp' }
+local servers = {"eslint",
+                 "flow",
+                 "tsserver",
+                 "vimls",
+                 "clojure_lsp",
+                 "prismals",
+                 "solargraph"}
 for _, lsp in pairs(servers) do
   require('lspconfig')[lsp].setup {
     on_attach = on_attach,
     flags = {
       -- This will be the default in neovim 0.7+
       debounce_text_changes = 150,
-      }
+      },
+    capabilities = capabilities
     }
 end
 
+-- luasnip setup
+local luasnip = require 'luasnip'
 
--- which-key
-require("which-key").setup {
-  -- leave it empty to use the default settings
+-- nvim-cmp setup
+local cmp = require 'cmp'
+cmp.setup {
+  snippet = {
+    expand = function(args)
+      luasnip.lsp_expand(args.body)
+    end,
+  },
+  mapping = cmp.mapping.preset.insert({
+    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<CR>'] = cmp.mapping.confirm {
+      behavior = cmp.ConfirmBehavior.Replace,
+      select = true,
+    },
+    ['<Tab>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      elseif luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
+      else
+        fallback()
+      end
+    end, { 'i', 's' }),
+    ['<S-Tab>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      elseif luasnip.jumpable(-1) then
+        luasnip.jump(-1)
+      else
+        fallback()
+      end
+    end, { 'i', 's' }),
+  }),
+  sources = {
+    { name = 'nvim_lsp' },
+    { name = 'luasnip' },
+  },
 }
 
+-- neoscroll
+require('neoscroll').setup()
+
+-- which-key
+require("which-key").setup{}
+
+-- yanky
+require("yanky").setup({})
+vim.keymap.set("n", "p", "<Plug>(YankyPutAfter)", {})
+vim.keymap.set("n", "P", "<Plug>(YankyPutBefore)", {})
+vim.keymap.set("x", "p", "<Plug>(YankyPutAfter)", {})
+vim.keymap.set("x", "P", "<Plug>(YankyPutBefore)", {})
+vim.keymap.set("n", "gp", "<Plug>(YankyGPutAfter)", {})
+vim.keymap.set("n", "gP", "<Plug>(YankyGPutBefore)", {})
+vim.keymap.set("x", "gp", "<Plug>(YankyGPutAfter)", {})
+vim.keymap.set("x", "gP", "<Plug>(YankyGPutBefore)", {})
+vim.api.nvim_set_keymap("n", "<c-n>", "<Plug>(YankyCycleForward)", {})
+vim.api.nvim_set_keymap("n", "<c-p>", "<Plug>(YankyCycleBackward)", {})
 
 -- Telescope
 require('telescope').setup{
@@ -241,12 +340,21 @@ extensions = {
   },
 }
 require('telescope').load_extension('fzf')
-
+require("telescope").load_extension("yank_history")
 
 -- Treesitter
 require'nvim-treesitter.configs'.setup {
   -- A list of parser names, or "all"
-  ensure_installed = { "clojure", "lua", "bash","python" ,"ruby" ,"yaml" ,"vim" ,"json"},
+  ensure_installed = {"bash",
+                      "clojure",
+                      "dockerfile",
+                      "javascript",
+                      "json",
+                      "lua",
+                      "python" ,
+                      "ruby",
+                      "vim",
+                      "yaml"},
   -- Install parsers synchronously (only applied to `ensure_installed`)
   sync_install = false,
   highlight = {
@@ -263,7 +371,6 @@ require'nvim-treesitter.configs'.setup {
     },
   },
 }
-
 
 -- nvim-tree
 require'nvim-tree'.setup{
@@ -300,9 +407,7 @@ require'nterm.main'.init({
 -- vim.api.nvim_set_keymap( "n", "<leader>af", "<cmd>lua require'nterm.main'.term_focus('repl')<cr>", opts)
 -- vim.api.nvim_set_keymap( "n", "<leader>ar", "<cmd>lua require'nterm.main'.term_send('~/.vim/plugged/vim-iced/bin/iced repl --with-kaocha', 'repl')<cr>", opts)
 -- vim.api.nvim_set_keymap( "n", "<leader>al", "<cmd>lua require'nterm.main'.term_send_cur_line(nil, {autoclose=0})<cr>", opts)
-
 vim.api.nvim_set_keymap( "n", "<leader>ar", "<cmd>terminal ~/.vim/plugged/vim-iced/bin/iced repl --with-kaocha <cr>", opts)
-
--- Optional, if you want to use the telescope extension (:Telescope nterm)
 require('telescope').load_extension('nterm')
+
 EOF
